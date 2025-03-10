@@ -1,0 +1,79 @@
+# Article Rewriter
+
+A Python application for rewriting and scheduling blog posts using Google's Generative AI and Blogger API.
+
+## Features
+
+- Fetch articles from sitemap URLs
+- Rewrite articles using Google's Generative AI
+- Schedule and post articles to Blogger
+- User-friendly interface with progress tracking
+- Logging system for monitoring operations
+
+## Project Structure
+
+```
+article-rewriter/
+├── main.py           # Application entry point
+├── ui.py            # User interface components
+├── blogger_api.py   # Blogger API handler
+├── rewriter.py      # Article rewriting engine
+├── utils.py         # Utility functions and classes
+├── config.py        # Configuration settings
+├── requirements.txt # Project dependencies
+└── README.md        # Project documentation
+```
+
+## Setup
+
+1. Install dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+2. Configure Google Cloud Project:
+   - Create a project in Google Cloud Console
+   - Enable Blogger API
+   - Create OAuth 2.0 credentials
+   - Download client_secrets.json
+
+3. Get Google API Key:
+   - Create an API key in Google Cloud Console
+   - Enable Generative AI API
+
+## Usage
+
+1. Run the application:
+```bash
+python main.py
+```
+
+2. Configure the application:
+   - Enter your Google API key
+   - Select client_secrets.json file
+   - Authenticate with Google
+   - Select your blog
+
+3. Working with articles:
+   - Enter sitemap URL to fetch articles
+   - Select articles to process
+   - Use rewrite function to generate new content
+   - Schedule posts as needed
+   - Post to Blogger
+
+## Error Handling
+
+The application includes comprehensive error handling and logging:
+- All operations are logged with timestamps
+- Errors are displayed in the UI and logged
+- Progress tracking for long-running operations
+
+## Notes
+
+- Ensure you have proper permissions for the Blogger account
+- API usage may be subject to quotas and limitations
+- Schedule posts with appropriate intervals to avoid API rate limits
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
