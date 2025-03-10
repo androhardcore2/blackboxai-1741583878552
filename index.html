@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article Rewriter Pro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/static/js/app.js" defer></script>
+</head>
+<body class="bg-gray-50">
+    <div class="min-h-screen flex">
+        <!-- Sidebar -->
+        <div class="w-64 bg-white shadow-lg">
+            <div class="p-4">
+                <h1 class="text-xl font-bold">Article Rewriter Pro</h1>
+            </div>
+            <nav class="mt-4">
+                <a href="#settings" class="tab-link flex items-center px-4 py-2 text-gray-600 hover:bg-gray-50">
+                    <i class="fas fa-cog mr-3"></i>
+                    <span>Settings</span>
+                </a>
+                <a href="#blogger" class="tab-link flex items-center px-4 py-2 text-gray-600 hover:bg-gray-50">
+                    <i class="fab fa-blogger mr-3"></i>
+                    <span>Blogger</span>
+                </a>
+                <a href="#sitemap" class="tab-link flex items-center px-4 py-2 text-gray-600 hover:bg-gray-50">
+                    <i class="fas fa-sitemap mr-3"></i>
+                    <span>Sitemap</span>
+                </a>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 p-8">
+            <!-- Settings Tab -->
+            <div id="settings" class="tab-content">
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <h2 class="text-xl font-semibold mb-4">API Settings</h2>
+                    <div class="space-y-4">
+                        <label class="block">
+                            <span class="text-gray-700">Google API Key</span>
+                            <div class="mt-1 relative">
+                                <input type="password" id="apiKey" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter your API key">
+                                <button id="toggleApiKey" class="absolute right-2 top-2 text-gray-500 hover:text-gray-700">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </label>
+                        <button id="saveApiKey" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                            Save API Key
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blogger Tab -->
+            <div id="blogger" class="tab-content hidden">
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <h2 class="text-xl font-semibold mb-4">Blog Selection</h2>
+                    <div class="space-y-4">
+                        <label class="block">
+                            <span class="text-gray-700">Select Blog</span>
+                            <select id="blogSelect" class="mt-1 block w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="">Select a blog...</option>
+                            </select>
+                        </label>
+                        <button id="refreshBlogs" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                            Refresh Blogs
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sitemap Tab -->
+            <div id="sitemap" class="tab-content hidden">
+                <div class="bg-white p-6 rounded-lg shadow-sm mb-6">
+                    <h2 class="text-xl font-semibold mb-4">Sitemap URL</h2>
+                    <div class="space-y-4">
+                        <label class="block">
+                            <span class="text-gray-700">Enter sitemap URL</span>
+                            <input type="text" id="sitemapUrl" class="mt-1 block w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter sitemap URL (e.g., https://blog.google/sitemap.xml)">
+                        </label>
+                        <button id="fetchArticles" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                            Fetch Articles
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-xl font-semibold">Articles</h2>
+                        <div class="space-x-2">
+                            <button id="scheduleArticles" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                                <i class="far fa-clock mr-2"></i>Schedule
+                            </button>
+                            <button id="rewriteArticles" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
+                                <i class="fas fa-sync mr-2"></i>Rewrite
+                            </button>
+                            <button id="postArticles" class="bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">
+                                <i class="fas fa-upload mr-2"></i>Post
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table id="articlesTable" class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">TITLE</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">SCHEDULE</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">STATUS</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <!-- Article rows will be inserted here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="mt-6 bg-white p-6 rounded-lg shadow-sm">
+                    <h2 class="text-xl font-semibold mb-4">Article Preview</h2>
+                    <div id="articlePreview" class="prose max-w-none">
+                        Select an article to preview content...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</body>
+</html>
